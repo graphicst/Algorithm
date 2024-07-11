@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Subway Station</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Subway Station</h1>
+        
+        <div class="form-container">
+            <form method="post" action="/" class="form-inline">
+                {% csrf_token %}
+                <label for="target_node">Enter Target Node:</label>
+                <select id="target_node" name="target_node" class="form-control">
+                    {% for node in dijkstra_path %}
+                        <option value="{{ node }}">{{ node }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+            
+            <form method="get" action="/new_graph" class="form-inline">
+                <button type="submit" class="btn btn-secondary">New Graph</button>
+            </form>
+        </div>
+        
+        <div class="graph-container">
+            <img src="data:image/png;base64,{{ img_data }}" alt="Graph Image">
+        </div>
+        
+        <h2>Dijkstra Algorithm</h2>
+        <table>
+            <tr>
+                <th>Node</th>
+                <th>Path</th>
+            </tr>
+            {% for node, path in dijkstra_path.items %}
+                <tr>
+                    <td>{{ node }}</td>
+                    <td>{{ path }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+
+        <h2>A* Algorithm</h2>
+        <table>
+            <tr>
+                <th>Path</th>
+            </tr>
+            {% for path in astar_result %}
+                <tr>
+                    <td>{{ path }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+
+        <h2>Backtracking Algorithm</h2>
+        <table>
+            <tr>
+                <th>Path</th>
+            </tr>
+            {% for path in backtracking_result %}
+                <tr>
+                    <td>{{ path }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>
